@@ -35,14 +35,12 @@
 
 require_once('../../src/u2flib_server/U2F.php');
 
-$dbfile = '/var/tmp/u2f-pdo.sqlite';
-
-$pdo = new PDO("sqlite:$dbfile");
+$pdo = new PDO("mysql:dbname=u2f", 'test', 'bonjour');
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
-$pdo->exec("create table if not exists users (id integer primary key, name varchar(255))");
-$pdo->exec("create table if not exists registrations (id integer primary key, user_id integer, keyHandle varchar(255), publicKey varchar(255), certificate text, counter integer)");
+$pdo->exec("create table if not exists users (id integer primary key auto_increment, name varchar(255))");
+$pdo->exec("create table if not exists registrations (id integer primary key auto_increment, user_id integer, keyHandle varchar(255), publicKey varchar(255), certificate text, counter integer)");
 
 $scheme = isset($_SERVER['HTTPS']) ? "https://" : "http://";
 $u2f = new u2flib_server\U2F($scheme . $_SERVER['HTTP_HOST']);
