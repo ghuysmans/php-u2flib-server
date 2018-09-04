@@ -113,7 +113,7 @@ function updateReg($reg) {
         ?>
         setTimeout(function() {
             console.log("Register: ", req);
-            u2f.register([req], sigs, function(data) {
+            u2f.register(req.appId, [req], sigs, function(data) {
                 var form = document.getElementById('form');
                 var reg = document.getElementById('register2');
                 var user = document.getElementById('username');
@@ -144,7 +144,7 @@ function updateReg($reg) {
         ?>
         setTimeout(function() {
             console.log("sign: ", req);
-            u2f.sign(req, function(data) {
+            u2f.sign(req[0].appId, req[0].challenge, req, function(data) {
                 var form = document.getElementById('form');
                 var auth = document.getElementById('authenticate2');
                 var user = document.getElementById('username');
